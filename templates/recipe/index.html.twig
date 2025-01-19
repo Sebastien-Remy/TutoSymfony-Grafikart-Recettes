@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello RecipeController!{% endblock %}
+
+{% block body %}
+    <h1>Liste des recettes</h1>
+    <ul>
+        <li>
+            <a href="{{ path('recipe.show', {id: 32, slug: 'pates-bolognaise'}) }}">Pâtes bolognaise</a>
+        </li>
+    </ul>
+{% endblock %}
