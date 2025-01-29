@@ -1,11 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title "Recette : " ~ recipe.title %}
+{% block title "Edition : " ~ recipe.title %}
 
 {% block body %}
     <h1> {{  recipe.title }}</h1>
 
     <p>
-        {{ recipe.content  | nl2br }}
+        {{ form(form) }}
     </p>
 {% endblock %}
