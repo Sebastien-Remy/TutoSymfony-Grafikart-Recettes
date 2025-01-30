@@ -13,13 +13,18 @@ use Symfony\Component\String\Slugger\AsciiSlugger;
 
 class CategoryType extends AbstractType
 {
+    public function __construct(private readonly FormListenerFactory $formListenerFactory)
+    {
+    }
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('name')
             ->add('slug')
             ->add('submit', SubmitType::class, [])
-            ->addEventListener(FormEvents::PRE_SUBMIT, $this->autoSlug(...))
+            ->addEventListener(FormEvents::PRE_SUBMIT, $this->formListenerFactory->autoslug('name'))
+            ->addEventListener(FormEvents::POST_SUBMIT, $this->formListenerFactory->timestamps())
+
         ;
     }
 
@@ -30,14 +35,7 @@ class CategoryType extends AbstractType
         ]);
     }
 
-    public function autoSlug(PreSubmitEvent $event): void
-    {
-        $data = $event->getData();
-        if (empty($data['slug'])) {
-            $slugger = new AsciiSlugger();
-            $data['slug'] = strtolower($slugger->slug($data['name']));
-            $event->setData($data);
-        }
-    }
+
+
 
 }

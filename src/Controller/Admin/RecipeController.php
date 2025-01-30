@@ -56,7 +56,7 @@ final class RecipeController extends AbstractController
             $recipe->setUpdatedAt(new \DateTimeImmutable());
             $entityManager->flush();
             $this->addFlash('success', 'La recette à bien été modifiée');
-            return $this->redirectToRoute('recipe.index');
+            return $this->redirectToRoute('admin.recipe.index');
         }
         return $this->render('admin/recipe/edit.html.twig', [
                 'recipe' => $recipe,
