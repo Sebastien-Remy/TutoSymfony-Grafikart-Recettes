@@ -2,13 +2,12 @@
 
 namespace App\Entity;
 
-use App\Repository\RecipeRepository;
-use Doctrine\DBAL\Types\Types;
+use App\Repository\CategoryRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[ORM\Entity(repositoryClass: RecipeRepository::class)]
-class Recipe
+#[ORM\Entity(repositoryClass: CategoryRepository::class)]
+class Category
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -17,16 +16,12 @@ class Recipe
 
     #[ORM\Column(length: 255)]
     #[Assert\Length(min: 5, max: 255)]
-    private ?string $title = null;
+    private ?string $name = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\Length(min: 5, max: 255)]
     #[Assert\Regex('/^[a-z0-9]+(?:-[a-z0-9]+)*$/', message: 'Invalid slug')]
-    private ?string $slug = null;
 
-    #[ORM\Column(type: Types::TEXT)]
-    #[Assert\Length(min: 20)]
-    private ?string $content = null;
+    private ?string $slug = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
@@ -34,22 +29,20 @@ class Recipe
     #[ORM\Column]
     private ?\DateTimeImmutable $updatedAt = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?int $duration = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getTitle(): ?string
+    public function getName(): ?string
     {
-        return $this->title;
+        return $this->name;
     }
 
-    public function setTitle(string $title): static
+    public function setName(string $name): static
     {
-        $this->title = $title;
+        $this->name = $name;
 
         return $this;
     }
@@ -62,18 +55,6 @@ class Recipe
     public function setSlug(string $slug): static
     {
         $this->slug = $slug;
-
-        return $this;
-    }
-
-    public function getContent(): ?string
-    {
-        return $this->content;
-    }
-
-    public function setContent(string $content): static
-    {
-        $this->content = $content;
 
         return $this;
     }
@@ -102,15 +83,5 @@ class Recipe
         return $this;
     }
 
-    public function getDuration(): ?int
-    {
-        return $this->duration;
-    }
 
-    public function setDuration(?int $duration): static
-    {
-        $this->duration = $duration;
-
-        return $this;
-    }
 }
