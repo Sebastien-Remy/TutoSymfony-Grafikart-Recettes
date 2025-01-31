@@ -3,6 +3,8 @@
 namespace App\Form;
 
 use App\Entity\Category;
+use App\Entity\Recipe;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Event\PreSubmitEvent;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -21,6 +23,12 @@ class CategoryType extends AbstractType
         $builder
             ->add('name')
             ->add('slug')
+            ->add('recipes', EntityType::class, [
+                'class' => Recipe::class,
+                'choice_label' => 'title',
+                'multiple' => true,
+                'by_reference' => false,
+            ])
             ->add('submit', SubmitType::class, [])
             ->addEventListener(FormEvents::PRE_SUBMIT, $this->formListenerFactory->autoslug('name'))
             ->addEventListener(FormEvents::POST_SUBMIT, $this->formListenerFactory->timestamps())
